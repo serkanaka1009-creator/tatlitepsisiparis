@@ -265,6 +265,20 @@
   <div class="card">
     <span class="label">Siparişi Veren <span class="required-star">*</span></span>
     <input type="text" id="siparisVeren" placeholder="Adınızı yazın">
+
+    <span class="label" style="margin-top:14px;">Sipariş Bölgesi / Grubu <span class="required-star">*</span></span>
+    <select id="siparisBolgesi">
+      <option value="">Seçiniz</option>
+      <option value="AKSARAY MÜŞTERİ SİPARİŞ">AKSARAY MÜŞTERİ SİPARİŞ</option>
+      <option value="AKSARAY ŞUBELER SİPARİŞ">AKSARAY ŞUBELER SİPARİŞ</option>
+      <option value="AKSARAY YUNUS MARKETLER SİPARİŞ">AKSARAY YUNUS MARKETLER SİPARİŞ</option>
+      <option value="ANKARA SİPARİŞ">ANKARA SİPARİŞ</option>
+      <option value="ÇANKIRI SİPARİŞ">ÇANKIRI SİPARİŞ</option>
+      <option value="ÇEVRE İL MÜŞTERİ SİPARİŞ">ÇEVRE İL MÜŞTERİ SİPARİŞ</option>
+      <option value="ÇEVRE İL ŞUBELER SİPARİŞ">ÇEVRE İL ŞUBELER SİPARİŞ</option>
+      <option value="DÜZCE SİPARİŞ">DÜZCE SİPARİŞ</option>
+      <option value="KIRŞEHİR YUNUS MARKET SİPARİŞ">KIRŞEHİR YUNUS MARKET SİPARİŞ</option>
+    </select>
   </div>
 
   <!-- ANA GRUP -->
@@ -343,6 +357,15 @@ async function saveHistory(){
 function fmtDateTime(d){
   const p = n => String(n).padStart(2,'0');
   return `${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function requireBolge(){
+  const sel = document.getElementById('siparisBolgesi');
+  if(!sel || !sel.value){
+    alert('Lütfen önce yukarıdan "Sipariş Bölgesi / Grubu" seçin.');
+    return false;
+  }
+  return true;
 }
 
 function upsertCart(id, data){
@@ -437,6 +460,7 @@ function onKuruPastaChange(id, ad){
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
   if(chk.checked && qty >= 2){
+    if(!requireBolge()){ chk.checked = false; return; }
     upsertCart(id, { title: ad, note: 'KG', qty, grup:'KURU PASTA' });
   } else {
     upsertCart(id, null);
@@ -472,6 +496,7 @@ function genUrunEkle(key){
     alert('Lütfen ürün adı ve adet girin.');
     return;
   }
+  if(!requireBolge()) return;
   addCartEntry({ id:key+'-'+Date.now(), title: ad, note:'', qty: adet, grup: ANA_GRUP_LABELS[key] });
   document.getElementById('genUrunAd').value='';
   document.getElementById('genAdet').value='';
@@ -556,6 +581,7 @@ function onBaklavaRowChange(id, ad, tepsiText){
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
   if(chk.checked && qty > 0){
+    if(!requireBolge()){ chk.checked = false; return; }
     upsertCart(id, { title: ad, note: tepsiText, qty, grup:'BAKLAVA' });
   } else {
     upsertCart(id, null);
@@ -638,6 +664,7 @@ function onSicakRowChange(id, ad){
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
   if(chk.checked && qty > 0){
+    if(!requireBolge()){ chk.checked = false; return; }
     upsertCart(id, { title: ad, note: 'KG', qty, grup:'YAŞ PASTA GRUBU' });
   } else {
     upsertCart(id, null);
@@ -797,6 +824,7 @@ function ozelYasPastaEkle(){
     alert('Lütfen en az "kaç kişilik" ve "pastanın şekli" alanlarını doldurun.');
     return;
   }
+  if(!requireBolge()) return;
 
   const noteLines = [
     `${kisilik} kişilik`,
@@ -858,6 +886,7 @@ function onStandartYasChange(n){
   const qtyInput = document.getElementById('qty-'+id);
   const qty = parseInt(qtyInput.value,10);
   if(chk.checked && qty > 0){
+    if(!requireBolge()){ chk.checked = false; return; }
     upsertCart(id, { title: `${n} NOLU YAŞ PASTA`, note: 'ADET', qty, grup:'YAŞ PASTA GRUBU' });
   } else {
     upsertCart(id, null);
@@ -870,6 +899,7 @@ function onDigerRowChange(id, ad){
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
   if(chk.checked && qty > 0){
+    if(!requireBolge()){ chk.checked = false; return; }
     upsertCart(id, { title: ad, note: 'TEPSİ', qty, grup:'YAŞ PASTA GRUBU' });
   } else {
     upsertCart(id, null);
@@ -917,6 +947,11 @@ async function paylasWhatsapp(){
     alert('Lütfen "Siparişi Veren" alanına adınızı yazın.');
     return;
   }
+  const bolge = document.getElementById('siparisBolgesi').value;
+  if(!bolge){
+    alert('Lütfen "Sipariş Bölgesi / Grubu" alanından bir seçim yapın.');
+    return;
+  }
   if(state.cart.length === 0){
     alert('Sipariş listesi boş. Lütfen önce ürün ekleyin.');
     return;
@@ -946,6 +981,7 @@ async function paylasWhatsapp(){
   const text = [
     `*TATLI TEPSİ SİPARİŞİ*`,
     `Sipariş Veren: ${isim}`,
+    `Sipariş Bölgesi/Grubu: ${bolge}`,
     `Tarih/Saat: ${dateTime}`,
     ``,
     ...groupedLines
@@ -955,7 +991,7 @@ async function paylasWhatsapp(){
 
   // history'e kaydet
   state.history.unshift({
-    isim, dateTime,
+    isim, bolge, dateTime,
     lines,
     itemCount: state.cart.reduce((s,i)=>s+i.qty,0)
   });
@@ -996,7 +1032,7 @@ function renderHistory(){
   list.innerHTML = state.history.map(h=>`
     <div class="history-item">
       <div class="hdate">${h.dateTime}</div>
-      <div class="hwho">${h.isim} — ${h.itemCount} ürün</div>
+      <div class="hwho">${h.isim}${h.bolge ? ' — '+h.bolge : ''} — ${h.itemCount} ürün</div>
       <div class="hlines">${h.lines.join('\n')}</div>
     </div>
   `).join('');
