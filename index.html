@@ -115,6 +115,63 @@
   textarea{resize:vertical;min-height:64px;}
 
   .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .ana-grup-wheel{
+    width:100%;max-width:300px;display:block;margin:6px auto 0;
+    filter:drop-shadow(0 3px 8px rgba(58,36,22,0.18));
+  }
+  .wedge path{
+    cursor:pointer;
+    stroke:var(--paper);
+    stroke-width:3;
+    transition:filter .15s, opacity .15s;
+  }
+  .wedge:active path{ filter:brightness(0.92); }
+  .wedge.selected path{
+    filter:brightness(1.22);
+    stroke:var(--cream);
+    stroke-width:5;
+  }
+  .wedge-1 path{ fill:var(--gold-deep); }
+  .wedge-2 path{ fill:var(--pistachio-deep); }
+  .wedge-3 path{ fill:var(--walnut-deep); }
+  .wedge-4 path{ fill:var(--gold); }
+  .wedge-5 path{ fill:var(--pistachio); }
+  .wedge-6 path{ fill:var(--walnut); }
+  .wedge-label{
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:11px;
+    line-height:1.15;
+    color:#fff;
+    text-align:center;
+    text-shadow:0 1px 3px rgba(0,0,0,0.45);
+    display:flex;align-items:center;justify-content:center;
+    height:100%;width:100%;
+    pointer-events:none;
+    user-select:none;
+  }
+  .hub{
+    fill:var(--gold);
+    stroke:var(--gold-deep);
+    stroke-width:3;
+    pointer-events:none;
+  }
+  .hub-label{
+    height:100%;width:100%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:17px;
+    line-height:1.05;
+    color:#2E8B3D;
+    text-shadow:
+      1px 0 0 var(--gold-deep), -1px 0 0 var(--gold-deep),
+      0 1px 0 var(--gold-deep), 0 -1px 0 var(--gold-deep),
+      1px 1px 0 var(--gold-deep), -1px -1px 0 var(--gold-deep);
+    pointer-events:none;
+    user-select:none;
+  }
   .choice-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
   .choice-grid-3 .choice-btn{font-size:12.5px;padding:14px 6px;}
   .choice-btn{
@@ -255,7 +312,6 @@
       <span></span><span></span><span></span><span></span><span></span>
     </div>
     <h1>Sipariş Formu</h1>
-    <p>Baklava ve yaş pasta siparişlerinizi buradan iletin</p>
   </div>
 </div>
 
@@ -283,15 +339,35 @@
 
   <!-- ANA GRUP -->
   <div class="card">
-    <span class="label">Ana Grup</span>
-    <div class="choice-grid">
-      <div class="choice-btn" data-anagrup="BAKLAVA" onclick="setAnaGrup('BAKLAVA')">BAKLAVA</div>
-      <div class="choice-btn" data-anagrup="YAS_PASTA" onclick="setAnaGrup('YAS_PASTA')">YAŞ PASTA GRUBU</div>
-      <div class="choice-btn" data-anagrup="KADAYIF" onclick="setAnaGrup('KADAYIF')">KADAYIF</div>
-      <div class="choice-btn" data-anagrup="BOREK" onclick="setAnaGrup('BOREK')">BÖREK</div>
-      <div class="choice-btn" data-anagrup="KURU_PASTA" onclick="setAnaGrup('KURU_PASTA')">KURU PASTA</div>
-      <div class="choice-btn" data-anagrup="KUTU_AMBALAJ" onclick="setAnaGrup('KUTU_AMBALAJ')">KUTU VE AMBALAJ</div>
-    </div>
+    <span class="label" style="text-align:center;">Ana Grup</span>
+    <svg class="ana-grup-wheel" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+      <g class="wedge wedge-1" data-anagrup="BAKLAVA" onclick="setAnaGrup('BAKLAVA')">
+        <path d="M160,160 L160.0,10.0 A150,150 0 0,1 289.9,85.0 Z"/>
+        <foreignObject x="163" y="55" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">BAKLAVA</div></foreignObject>
+      </g>
+      <g class="wedge wedge-2" data-anagrup="YAS_PASTA" onclick="setAnaGrup('YAS_PASTA')">
+        <path d="M160,160 L289.9,85.0 A150,150 0 0,1 289.9,235.0 Z"/>
+        <foreignObject x="211" y="138" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">YAŞ PASTA GRUBU</div></foreignObject>
+      </g>
+      <g class="wedge wedge-3" data-anagrup="KADAYIF" onclick="setAnaGrup('KADAYIF')">
+        <path d="M160,160 L289.9,235.0 A150,150 0 0,1 160.0,310.0 Z"/>
+        <foreignObject x="163" y="221" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">KADAYIF</div></foreignObject>
+      </g>
+      <g class="wedge wedge-4" data-anagrup="BOREK" onclick="setAnaGrup('BOREK')">
+        <path d="M160,160 L160.0,310.0 A150,150 0 0,1 30.1,235.0 Z"/>
+        <foreignObject x="67" y="221" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">BÖREK</div></foreignObject>
+      </g>
+      <g class="wedge wedge-5" data-anagrup="KURU_PASTA" onclick="setAnaGrup('KURU_PASTA')">
+        <path d="M160,160 L30.1,235.0 A150,150 0 0,1 30.1,85.0 Z"/>
+        <foreignObject x="19" y="138" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">KURU PASTA</div></foreignObject>
+      </g>
+      <g class="wedge wedge-6" data-anagrup="KUTU_AMBALAJ" onclick="setAnaGrup('KUTU_AMBALAJ')">
+        <path d="M160,160 L30.1,85.0 A150,150 0 0,1 160.0,10.0 Z"/>
+        <foreignObject x="67" y="55" width="90" height="44"><div xmlns="http://www.w3.org/1999/xhtml" class="wedge-label">KUTU VE AMBALAJ</div></foreignObject>
+      </g>
+      <circle class="hub" cx="160" cy="160" r="58"/>
+      <foreignObject x="102" y="128" width="116" height="64"><div xmlns="http://www.w3.org/1999/xhtml" class="hub-label">Tatlı<br/>Tepsi</div></foreignObject>
+    </svg>
   </div>
 
   <div id="dynamicArea"></div>
@@ -336,20 +412,20 @@ const state = {
 
 const dynamicArea = document.getElementById('dynamicArea');
 
-/* ---------------- STORAGE ---------------- */
-const HISTORY_KEY = 'bolcek-siparis-gecmisi';
+/* ---------------- STORAGE (bu cihazda kalıcı) ---------------- */
+const HISTORY_KEY = 'tatli-tepsi-siparis-gecmisi';
 
-async function loadHistory(){
+function loadHistory(){
   try{
-    const res = await window.storage.get(HISTORY_KEY, false);
-    if(res && res.value){ state.history = JSON.parse(res.value); }
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if(raw){ state.history = JSON.parse(raw); }
   }catch(e){ state.history = []; }
   renderHistory();
 }
 
-async function saveHistory(){
+function saveHistory(){
   try{
-    await window.storage.set(HISTORY_KEY, JSON.stringify(state.history), false);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history));
   }catch(e){ console.error('Geçmiş kaydedilemedi', e); }
 }
 
@@ -445,27 +521,27 @@ function renderKuruPasta(){
       const qty = existing ? existing.qty : '';
       return `
       <div class="urun-row">
-        <input type="checkbox" id="chk-${cssEsc(id)}" ${checked?'checked':''} onchange="onKuruPastaChange('${jsEsc(id)}','${jsEsc(u.ad)}')">
+        <input type="checkbox" id="chk-${cssEsc(id)}" ${checked?'checked':''} onchange="kuruPastaSync('${jsEsc(id)}','${jsEsc(u.ad)}',true)">
         <span class="urun-name">${u.ad}</span>
-        <input type="number" min="2" class="qty-input" placeholder="Kg" value="${qty}" id="qty-${cssEsc(id)}" oninput="onKuruPastaChange('${jsEsc(id)}','${jsEsc(u.ad)}')">
+        <input type="number" min="10" class="qty-input" placeholder="Kg" value="${qty}" id="qty-${cssEsc(id)}" oninput="kuruPastaSync('${jsEsc(id)}','${jsEsc(u.ad)}',false)" onblur="kuruPastaSync('${jsEsc(id)}','${jsEsc(u.ad)}',true)">
         <span class="tepsi-fixed">KG</span>
       </div>`;
     }).join('') +
-    `<div class="hint">En az 2 kg olacak şekilde miktar girip kutucuğu işaretleyin. Ürün otomatik olarak SİPARİŞ listesine eklenir.</div>`;
+    `<div class="hint">En az 10 kg olacak şekilde miktar girip kutucuğu işaretleyin. Ürün otomatik olarak SİPARİŞ listesine eklenir.</div>`;
   dynamicArea.appendChild(wrap);
 }
 
-function onKuruPastaChange(id, ad){
+function kuruPastaSync(id, ad, announce){
   const chk = document.getElementById('chk-'+cssEsc(id));
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
-  if(chk.checked && qty >= 2){
-    if(!requireBolge()){ chk.checked = false; return; }
+  if(chk.checked && qty >= 10){
+    if(!requireBolge()){ chk.checked = false; upsertCart(id, null); return; }
     upsertCart(id, { title: ad, note: 'KG', qty, grup:'KURU PASTA' });
   } else {
     upsertCart(id, null);
-    if(chk.checked && qty > 0 && qty < 2){
-      alert('Kuru pasta siparişi en az 2 kg olmalıdır.');
+    if(announce && chk.checked && qty > 0 && qty < 10){
+      alert('Kuru pasta siparişi en az 10 kg olmalıdır.');
     }
   }
 }
@@ -643,31 +719,39 @@ function renderYasSubArea(){
 }
 
 function sicakTatlilarHTML(){
-  const id = 'sicak|HALKA_TATLI';
-  const existing = state.cart.find(i=>i.id===id);
-  const checked = !!existing;
-  const qty = existing ? existing.qty : '';
-  return `
-    <span class="label" style="margin-top:14px;">Sıcak Tatlı</span>
-    <div class="urun-row">
-      <input type="checkbox" id="chk-${cssEsc(id)}" ${checked?'checked':''} onchange="onSicakRowChange('${jsEsc(id)}','HALKA TATLI')">
-      <span class="urun-name">HALKA TATLI</span>
-      <input type="number" min="1" class="qty-input" placeholder="Kg" value="${qty}" id="qty-${cssEsc(id)}" oninput="onSicakRowChange('${jsEsc(id)}','HALKA TATLI')">
-      <span class="tepsi-fixed">KG</span>
-    </div>
-    <div class="hint">Kutucuğu işaretleyip miktar girdiğinizde ürün otomatik olarak SİPARİŞ listesine eklenir.</div>
-  `;
+  const urunler = [
+    { key:'HALKA_TATLI', ad:'HALKA TATLI', birim:'ADET', min:1 },
+    { key:'TULUMBA_TATLISI', ad:'TULUMBA TATLISI', birim:'KG', min:5 }
+  ];
+  return `<span class="label" style="margin-top:14px;">Sıcak Tatlı</span>` +
+    urunler.map(u=>{
+      const id = `sicak|${u.key}`;
+      const existing = state.cart.find(i=>i.id===id);
+      const checked = !!existing;
+      const qty = existing ? existing.qty : '';
+      return `
+      <div class="urun-row">
+        <input type="checkbox" id="chk-${cssEsc(id)}" ${checked?'checked':''} onchange="sicakSync('${jsEsc(id)}','${jsEsc(u.ad)}','${jsEsc(u.birim)}',${u.min},true)">
+        <span class="urun-name">${u.ad}</span>
+        <input type="number" min="${u.min}" class="qty-input" placeholder="${u.birim==='KG'?'Kg':'Adet'}" value="${qty}" id="qty-${cssEsc(id)}" oninput="sicakSync('${jsEsc(id)}','${jsEsc(u.ad)}','${jsEsc(u.birim)}',${u.min},false)" onblur="sicakSync('${jsEsc(id)}','${jsEsc(u.ad)}','${jsEsc(u.birim)}',${u.min},true)">
+        <span class="tepsi-fixed">${u.birim}</span>
+      </div>`;
+    }).join('') +
+    `<div class="hint">Kutucuğu işaretleyip miktar girdiğinizde ürün otomatik olarak SİPARİŞ listesine eklenir.</div>`;
 }
 
-function onSicakRowChange(id, ad){
+function sicakSync(id, ad, birim, min, announce){
   const chk = document.getElementById('chk-'+cssEsc(id));
   const qtyInput = document.getElementById('qty-'+cssEsc(id));
   const qty = parseInt(qtyInput.value,10);
-  if(chk.checked && qty > 0){
-    if(!requireBolge()){ chk.checked = false; return; }
-    upsertCart(id, { title: ad, note: 'KG', qty, grup:'YAŞ PASTA GRUBU' });
+  if(chk.checked && qty >= min){
+    if(!requireBolge()){ chk.checked = false; upsertCart(id, null); return; }
+    upsertCart(id, { title: ad, note: birim, qty, grup:'YAŞ PASTA GRUBU' });
   } else {
     upsertCart(id, null);
+    if(announce && chk.checked && qty > 0 && qty < min){
+      alert(`${ad} siparişi en az ${min} ${birim==='KG'?'kg':'adet'} olmalıdır.`);
+    }
   }
 }
 
