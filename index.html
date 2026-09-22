@@ -99,6 +99,7 @@ const S = {
   cart: {},           // productId -> qty (customer)
 };
 
+const ADMIN_PASSWORD = "fatihtemel1453";
 const STATUS_FLOW = ["Bekliyor","Hazırlanıyor","Hazır","Teslim Edildi"];
 const STATUS_COLOR = { "Bekliyor":"var(--brick)", "Hazırlanıyor":"var(--gold)", "Hazır":"var(--pistachioDark)", "Teslim Edildi":"var(--inkSoft)" };
 
@@ -185,6 +186,8 @@ function loginView(){
       <div class="card">
         ${S.loginMode==='admin' ? `
           <p class="muted" style="font-size:14px;">Ürünleri, mutfakları, müşterileri ve üreticileri yönetin; tüm siparişleri ve raporları görüntüleyin.</p>
+          <input id="adminPassword" type="password" placeholder="Yönetici şifresi" style="width:100%;margin:10px 0;" />
+          <div id="adminLoginError" style="color:var(--brick);font-size:13px;margin-bottom:8px;"></div>
           <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;">Yönetici Olarak Gir</button>
         ` : `
           <label class="muted" style="font-size:12px;font-weight:600;text-transform:uppercase;">Kullanıcı Adı</label>
@@ -199,7 +202,13 @@ function loginView(){
 function bindLogin(){
   document.querySelectorAll(".modetab").forEach(b=>b.onclick=()=>{ S.loginMode=b.dataset.mode; render(); });
   const adminBtn = document.getElementById("adminLoginBtn");
-  if (adminBtn) adminBtn.onclick = () => { S.user = { type:"admin" }; render(); };
+  if (adminBtn) adminBtn.onclick = () => {
+    const pass = document.getElementById("adminPassword").value;
+    if (pass === ADMIN_PASSWORD) { S.user = { type:"admin" }; render(); }
+    else { document.getElementById("adminLoginError").textContent = "Şifre yanlış."; }
+  };
+  const adminPassInput = document.getElementById("adminPassword");
+  if (adminPassInput) adminPassInput.onkeydown = (e) => { if (e.key==="Enter") adminBtn.click(); };
   const userBtn = document.getElementById("userLoginBtn");
   if (userBtn) userBtn.onclick = () => {
     const val = document.getElementById("loginUsername").value.trim().toLocaleLowerCase("tr-TR");
